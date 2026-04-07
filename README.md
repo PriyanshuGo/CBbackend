@@ -1,27 +1,61 @@
-CBbackend
-A high-performance RESTful API backend built with Node.js and Express. It features secure OTP-based registration cached via Redis, dual-token JWT authentication, and integrated Cloudinary media management.
+# 🚀 CBbackend
 
-🚀 Features
-OTP Registration: User registration validated via Email OTP, stored in Upstash Redis with a 5-minute expiration policy.
-Secure Authentication: Implements JWT Access and Refresh tokens with configurable expiry.
-Database Management: Multi-environment MongoDB support (Development, Staging, Production).
-Media Storage: Integrated Cloudinary API for handling file and image uploads.
-Mailing System: SMTP integration for automated transactional emails.
-Clean Architecture: Prefixed API routes (/api/v1/pr) and environment-driven configuration.
-🛠 Tech Stack
-Runtime: Node.js
-Framework: Express.js
-Database: MongoDB (Mongoose)
-Caching: Redis (Upstash)
-Email: Nodemailer (SMTP)
-Storage: Cloudinary
-Auth: JSON Web Tokens (JWT) & Bcrypt
-⚙️ Configuration
-Create a .env file in the root directory and populate it with the following variables:
+A high-performance RESTful API backend built with **Node.js** and **Express.js**.
+It features secure OTP-based registration with Redis caching, dual-token JWT authentication, and Cloudinary-powered media management.
 
- copy
-dotenv
+---
 
+## ✨ Features
+
+* 🔐 **OTP-Based Registration**
+
+  * Email OTP verification
+  * Stored in Upstash Redis with 5-minute expiry
+
+* 🔑 **Secure Authentication**
+
+  * JWT Access & Refresh tokens
+  * Configurable expiry system
+
+* 🗄 **Database Management**
+
+  * MongoDB with multi-environment support
+  * (Development, Staging, Production)
+
+* ☁️ **Media Storage**
+
+  * Cloudinary integration for file/image uploads
+
+* 📧 **Mailing System**
+
+  * SMTP-based transactional emails using Nodemailer
+
+* 🧱 **Clean Architecture**
+
+  * Versioned API routes (`/api/v1/pr`)
+  * Environment-based configuration
+
+---
+
+## 🛠 Tech Stack
+
+| Category       | Technology         |
+| -------------- | ------------------ |
+| Runtime        | Node.js            |
+| Framework      | Express.js         |
+| Database       | MongoDB (Mongoose) |
+| Caching        | Redis (Upstash)    |
+| Email          | Nodemailer (SMTP)  |
+| Storage        | Cloudinary         |
+| Authentication | JWT & Bcrypt       |
+
+---
+
+## ⚙️ Environment Configuration
+
+Create a `.env` file in the root directory and add the following:
+
+```env
 # Server Config
 ORIGIN=http://localhost:8000
 PORT=8000
@@ -54,44 +88,104 @@ SMTP_PASS=your_gmail_app_password
 CLOUDINARY_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
- copy
-📦 Installation
-Clone the repository:
+```
 
- copy
-bash
+---
 
+## 📦 Installation & Setup
+
+### 1️⃣ Clone the Repository
+
+```bash
 git clone https://github.com/PriyanshuGo/CBbackend.git
 cd CBbackend
-Install dependencies:
+```
 
- copy
-bash
+### 2️⃣ Install Dependencies
 
+```bash
 npm install
-Start the application:
+```
 
- copy
-bash
+### 3️⃣ Run the Application
 
-# Development mode
+#### Development Mode
+
+```bash
 npm run dev
+```
 
-# Production mode
+#### Production Mode
+
+```bash
 npm start
-🔑 Registration Flow (OTP Logic)
-This project uses a secure verification flow for new users:
+```
 
-Submission: User sends registration details to the register endpoint.
-OTP Generation: The system generates a numeric OTP and sends it via SMTP.
-Redis Caching: The OTP is stored in Redis with the user's email as the key and a 5-minute (300s) TTL.
-Verification: The user must provide the OTP within the timeframe to persist their data into MongoDB and finalize registration.
-📑 API Endpoints
-| Method | Endpoint | Description | | :--- | :--- | :--- | | POST | /api/v1/pr/auth/register | Send OTP to email & cache in Redis | | POST | /api/v1/pr/auth/verify-otp | Verify OTP and create user in DB | | POST | /api/v1/pr/auth/login | Log in and receive JWT tokens | | POST | /api/v1/pr/auth/refresh-token | Generate new access token using refresh token |
+---
 
-🚀 Deployment
-Environment Variables: Ensure all keys from the .env section are added to your deployment platform (e.g., Vercel, Render, or Railway).
-Build & Start:
-Build: npm install
-Start: node src/index.js
-Database Whitelisting: Ensure your MongoDB Atlas cluster whitelists the IP address of your deployment server.
+## 🔐 Authentication Flow (OTP System)
+
+This project uses a secure OTP-based registration process:
+
+1. **User Registration**
+
+   * User submits registration data
+
+2. **OTP Generation**
+
+   * Server generates a numeric OTP
+   * Sent via email using SMTP
+
+3. **Redis Caching**
+
+   * OTP stored in Redis (TTL: 5 minutes)
+
+4. **Verification**
+
+   * User submits OTP
+   * On success → user is saved in MongoDB
+
+---
+
+## 📑 API Endpoints
+
+| Method | Endpoint                        | Description                             |
+| ------ | ------------------------------- | --------------------------------------- |
+| POST   | `/api/v1/pr/auth/register`      | Send OTP to email & cache in Redis      |
+| POST   | `/api/v1/pr/auth/verify-otp`    | Verify OTP & create user                |
+| POST   | `/api/v1/pr/auth/login`         | Login & receive JWT tokens              |
+| POST   | `/api/v1/pr/auth/refresh-token` | Generate new access token using refresh |
+
+---
+
+## 🚀 Deployment
+
+### ✅ Steps
+
+* Add all `.env` variables to your deployment platform:
+
+  * Vercel / Render / Railway
+
+* Install dependencies:
+
+```bash
+npm install
+```
+
+* Start server:
+
+```bash
+node src/index.js
+```
+
+---
+
+### ⚠️ Important Notes
+
+* Ensure MongoDB Atlas allows your deployment IP
+* Keep secrets secure (never commit `.env`)
+* Use strong JWT secrets in production
+
+---
+
+⭐ If you found this project helpful, consider giving it a star!
